@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pranto Kumar Shaha — BIM Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg2: #111111;
+    --accent: #c8f562;
+    --accent2: #5ff0c8;
+    --text: #f0ede6;
+    --muted: #6b6b6b;
+    --border: #1e1e1e;
+    --card: #141414;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom Cursor */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.18s ease;
+    opacity: 0.5;
+  }
+  body:hover .cursor { opacity: 1; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 5%;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 3px;
+    color: var(--accent);
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.82rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    background: var(--accent);
+    color: #0a0a0a;
+    border: none;
+    padding: 0.5rem 1.4rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    cursor: none;
+    font-weight: 700;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .nav-cta:hover { background: var(--accent2); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 5% 8%;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(200,245,98,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,245,98,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+  }
+  .hero-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 30px; height: 1px;
+    background: var(--accent);
+  }
+  .hero-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4.5rem, 12vw, 11rem);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    margin-bottom: 2rem;
+  }
+  .hero-name span { color: var(--accent); }
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 440px;
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+  }
+  .hero-sub strong { color: var(--text); font-weight: 500; }
+  .hero-btns { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent);
+    color: #0a0a0a;
+    padding: 0.9rem 2.2rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-decoration: none;
+    cursor: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+  .btn-outline {
+    border: 1px solid var(--muted);
+    color: var(--text);
+    padding: 0.9rem 2.2rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    text-decoration: none;
+    cursor: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero-stats {
+    position: absolute;
+    right: 5%;
+    bottom: 8%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    text-align: right;
+  }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* SKILLS TICKER */
+  .ticker-wrap {
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg2);
+    padding: 1rem 0;
+  }
+  .ticker {
+    display: flex;
+    gap: 4rem;
+    animation: ticker 18s linear infinite;
+    white-space: nowrap;
+  }
+  .ticker-item {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .ticker-item::after {
+    content: '✦';
+    color: var(--accent);
+    font-size: 0.6rem;
+  }
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* SECTION BASE */
+  section { padding: 7rem 5%; }
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 20px; height: 1px;
+    background: var(--accent);
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    letter-spacing: 2px;
+    line-height: 1;
+    margin-bottom: 4rem;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .about-text p {
+    color: var(--muted);
+    font-size: 1.05rem;
+    font-weight: 300;
+    line-height: 1.9;
+    margin-bottom: 1.5rem;
+  }
+  .about-text p strong { color: var(--text); font-weight: 500; }
+  .software-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border);
+  }
+  .software-item {
+    background: var(--card);
+    padding: 1.4rem 1.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    transition: background 0.2s;
+  }
+  .software-item:hover { background: #1a1a1a; }
+  .software-dot {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .software-name {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text);
+    letter-spacing: 1px;
+  }
+
+  /* PROJECTS */
+  #projects { background: var(--bg2); }
+  .projects-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+  }
+  .filter-tabs {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .filter-tab {
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    padding: 0.4rem 1rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    cursor: none;
+    transition: all 0.2s;
+  }
+  .filter-tab.active, .filter-tab:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+  }
+  .project-card {
+    background: var(--card);
+    position: relative;
+    overflow: hidden;
+    cursor: none;
+    aspect-ratio: 4/3;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .project-card .img-placeholder {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #141414 0%, #1e1e1e 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.4s ease;
+  }
+  .project-card:hover .img-placeholder { transform: scale(1.05); }
+  .project-card .img-placeholder svg {
+    width: 60px; height: 60px;
+    opacity: 0.12;
+  }
+  /* Unique gradient overlays for each card */
+  .project-card:nth-child(1) .img-placeholder { background: linear-gradient(135deg, #0d1a0d, #1a2d1a); }
+  .project-card:nth-child(2) .img-placeholder { background: linear-gradient(135deg, #0d0d1a, #1a1a2d); }
+  .project-card:nth-child(3) .img-placeholder { background: linear-gradient(135deg, #1a0d0d, #2d1a1a); }
+  .project-card:nth-child(4) .img-placeholder { background: linear-gradient(135deg, #0d1a1a, #1a2d2d); }
+  .project-card:nth-child(5) .img-placeholder { background: linear-gradient(135deg, #1a1a0d, #2d2d1a); }
+  .project-card:nth-child(6) .img-placeholder { background: linear-gradient(135deg, #0d0d0d, #1e1e1e); }
+
+  .project-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .project-card:hover .project-overlay { opacity: 1; }
+
+  .project-info {
+    position: relative;
+    z-index: 1;
+    padding: 1.5rem;
+  }
+  .project-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+    margin-bottom: 0.4rem;
+  }
+  .project-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+  }
+  .project-type {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+  }
+  .project-tags {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-top: 0.8rem;
+  }
+  .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent);
+    border: 1px solid rgba(200,245,98,0.3);
+    padding: 0.15rem 0.5rem;
+    letter-spacing: 1px;
+  }
+
+  /* Upload notice */
+  .upload-notice {
+    background: var(--bg);
+    border: 1px dashed rgba(200,245,98,0.2);
+    padding: 3rem;
+    text-align: center;
+    margin-top: 1px;
+    grid-column: 1/-1;
+  }
+  .upload-notice p {
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 1px;
+  }
+  .upload-notice span { color: var(--accent); }
+
+  /* SERVICES */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border);
+  }
+  .service-card {
+    background: var(--card);
+    padding: 2.5rem;
+    transition: background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 0;
+    background: var(--accent);
+    transition: height 0.3s ease;
+  }
+  .service-card:hover::before { height: 100%; }
+  .service-card:hover { background: #161616; }
+  .service-icon {
+    font-size: 1.8rem;
+    margin-bottom: 1.2rem;
+  }
+  .service-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+    margin-bottom: 0.8rem;
+    color: var(--text);
+  }
+  .service-desc {
+    color: var(--muted);
+    font-size: 0.88rem;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  /* FIVERR CTA */
+  .fiverr-section {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 5rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 3rem;
+  }
+  .fiverr-text h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    letter-spacing: 2px;
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+  .fiverr-text h2 span { color: var(--accent); }
+  .fiverr-text p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 300;
+    max-width: 400px;
+  }
+  .fiverr-badge {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: #1dbf73;
+    color: white;
+    padding: 1.2rem 2.5rem;
+    text-decoration: none;
+    cursor: none;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .fiverr-badge:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(29,191,115,0.3); }
+
+  /* CONTACT */
+  #contact { background: var(--bg); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+  }
+  .contact-info h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+    line-height: 1;
+  }
+  .contact-info p {
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+  }
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.9rem;
+    cursor: none;
+    transition: color 0.2s;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .contact-link:hover { color: var(--accent); }
+  .contact-link-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 0.2rem;
+  }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .form-input, .form-textarea {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.9rem 1.2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+    outline: none;
+    resize: none;
+  }
+  .form-input:focus, .form-textarea:focus { border-color: var(--accent); }
+  .form-textarea { min-height: 130px; }
+
+  /* FOOTER */
+  footer {
+    padding: 3rem 5%;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 3px;
+    color: var(--accent);
+  }
+  .footer-copy {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 1px;
+  }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 1px;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--accent); }
+
+  /* ANIMATIONS */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .projects-grid { grid-template-columns: repeat(2, 1fr); }
+    .services-grid { grid-template-columns: 1fr; }
+    .hero-stats { display: none; }
+    .fiverr-section { flex-direction: column; }
+    nav .nav-links { display: none; }
+    .projects-header { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+    footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+  }
+  @media (max-width: 600px) {
+    .projects-grid { grid-template-columns: 1fr; }
+    .software-grid { grid-template-columns: 1fr; }
+    .hero-btns { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">PKS</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="https://fiverr.com" target="_blank"><button class="nav-cta">Hire on Fiverr</button></a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div>
+    <div class="hero-tag">BIM Designer & 3D Visualization Expert</div>
+    <h1 class="hero-name">
+      PRANTO<br>
+      <span>KUMAR</span><br>
+      SHAHA
+    </h1>
+    <p class="hero-sub">
+      Transforming architectural visions into precise <strong>BIM models</strong> and stunning <strong>3D visualizations</strong>. Specialized in Revit, AutoCAD, ETABS, and photorealistic renders.
+    </p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <div class="stat-num">10+</div>
+      <div class="stat-label">Projects Done</div>
+    </div>
+    <div>
+      <div class="stat-num">7</div>
+      <div class="stat-label">Software Skills</div>
+    </div>
+    <div>
+      <div class="stat-num">BSc</div>
+      <div class="stat-label">Architecture</div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span class="ticker-item">Autodesk Revit</span>
+    <span class="ticker-item">AutoCAD</span>
+    <span class="ticker-item">ETABS</span>
+    <span class="ticker-item">SketchUp</span>
+    <span class="ticker-item">Enscape</span>
+    <span class="ticker-item">V-Ray</span>
+    <span class="ticker-item">ArcGIS</span>
+    <span class="ticker-item">BIM Modeling</span>
+    <span class="ticker-item">3D Visualization</span>
+    <span class="ticker-item">Structural Analysis</span>
+    <!-- repeat for smooth loop -->
+    <span class="ticker-item">Autodesk Revit</span>
+    <span class="ticker-item">AutoCAD</span>
+    <span class="ticker-item">ETABS</span>
+    <span class="ticker-item">SketchUp</span>
+    <span class="ticker-item">Enscape</span>
+    <span class="ticker-item">V-Ray</span>
+    <span class="ticker-item">ArcGIS</span>
+    <span class="ticker-item">BIM Modeling</span>
+    <span class="ticker-item">3D Visualization</span>
+    <span class="ticker-item">Structural Analysis</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">About Me</div>
+  <div class="section-title">BUILDING DESIGN<br>WITH PRECISION</div>
+  <div class="about-grid fade-up">
+    <div class="about-text">
+      <p>
+        I'm <strong>Pranto Kumar Shaha</strong>, a BSc-qualified BIM Designer with a passion for turning complex architectural concepts into accurate, detailed, and visually compelling digital models.
+      </p>
+      <p>
+        With expertise spanning <strong>BIM coordination, structural modeling, photorealistic visualization</strong>, and geospatial analysis — I deliver end-to-end design solutions that meet international standards.
+      </p>
+      <p>
+        Currently offering professional services on <strong>Fiverr</strong>, working with clients globally on residential, commercial, and infrastructure projects.
+      </p>
+      <br>
+      <a href="#contact" class="btn-primary">Work With Me</a>
+    </div>
+    <div>
+      <div class="software-grid">
+        <div class="software-item"><div class="software-dot"></div><span class="software-name">Autodesk Revit</span></div>
+        <div class="software-item"><div class="software-dot"></div><span class="software-name">AutoCAD</span></div>
+        <div class="software-item"><div class="software-dot"></div><span class="software-name">ETABS</span></div>
+        <div class="software-item"><div class="software-dot"></div><span class="software-name">SketchUp</span></div>
+        <div class="software-item"><div class="software-dot"></div><span class="software-name">Enscape</span></div>
+        <div class="software-item"><div class="software-dot"></div><span class="software-name">V-Ray</span></div>
+        <div class="software-item"><div class="software-dot" style="background:var(--accent2)"></div><span class="software-name">ArcGIS</span></div>
+        <div class="software-item" style="opacity:0.4;"><div class="software-dot" style="background:var(--border)"></div><span class="software-name">+ More coming</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="projects-header fade-up">
+    <div>
+      <div class="section-label">Portfolio</div>
+      <div class="section-title" style="margin-bottom:0">SELECTED<br>PROJECTS</div>
+    </div>
+    <div class="filter-tabs">
+      <button class="filter-tab active">All</button>
+      <button class="filter-tab">BIM</button>
+      <button class="filter-tab">Render</button>
+      <button class="filter-tab">Structural</button>
+    </div>
+  </div>
+
+  <div class="projects-grid fade-up">
+
+    <div class="project-card">
+      <div class="img-placeholder">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="40" width="30" height="50" fill="#c8f562" opacity="0.6"/>
+          <rect x="45" y="20" width="45" height="70" fill="#c8f562" opacity="0.4"/>
+          <rect x="10" y="10" width="15" height="28" fill="#c8f562" opacity="0.3"/>
+        </svg>
+      </div>
+      <div class="project-overlay">
+        <div class="project-tags">
+          <span class="tag">Revit</span><span class="tag">BIM</span>
+        </div>
+      </div>
+      <div class="project-info">
+        <div class="project-num">01</div>
+        <div class="project-title">Project Title Here</div>
+        <div class="project-type">BIM Model — Residential</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="img-placeholder">
+        <svg viewBox="0 0 100 100" fill="none">
+          <circle cx="50" cy="50" r="35" stroke="#5ff0c8" stroke-width="2" opacity="0.5"/>
+          <circle cx="50" cy="50" r="20" fill="#5ff0c8" opacity="0.15"/>
+          <line x1="15" y1="50" x2="85" y2="50" stroke="#5ff0c8" stroke-width="1" opacity="0.4"/>
+          <line x1="50" y1="15" x2="50" y2="85" stroke="#5ff0c8" stroke-width="1" opacity="0.4"/>
+        </svg>
+      </div>
+      <div class="project-overlay">
+        <div class="project-tags">
+          <span class="tag">V-Ray</span><span class="tag">SketchUp</span>
+        </div>
+      </div>
+      <div class="project-info">
+        <div class="project-num">02</div>
+        <div class="project-title">Project Title Here</div>
+        <div class="project-type">3D Visualization — Commercial</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="img-placeholder">
+        <svg viewBox="0 0 100 100" fill="none">
+          <rect x="20" y="20" width="60" height="60" stroke="#c8f562" stroke-width="1.5" opacity="0.4"/>
+          <rect x="30" y="30" width="40" height="40" stroke="#c8f562" stroke-width="1" opacity="0.3"/>
+          <line x1="20" y1="20" x2="80" y2="80" stroke="#c8f562" stroke-width="1" opacity="0.2"/>
+          <line x1="80" y1="20" x2="20" y2="80" stroke="#c8f562" stroke-width="1" opacity="0.2"/>
+        </svg>
+      </div>
+      <div class="project-overlay">
+        <div class="project-tags">
+          <span class="tag">ETABS</span><span class="tag">AutoCAD</span>
+        </div>
+      </div>
+      <div class="project-info">
+        <div class="project-num">03</div>
+        <div class="project-title">Project Title Here</div>
+        <div class="project-type">Structural Analysis</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="img-placeholder">
+        <svg viewBox="0 0 100 100" fill="none">
+          <polygon points="50,10 90,80 10,80" stroke="#5ff0c8" stroke-width="1.5" opacity="0.4" fill="none"/>
+          <polygon points="50,30 75,75 25,75" fill="#5ff0c8" opacity="0.1"/>
+        </svg>
+      </div>
+      <div class="project-overlay">
+        <div class="project-tags">
+          <span class="tag">Enscape</span><span class="tag">Revit</span>
+        </div>
+      </div>
+      <div class="project-info">
+        <div class="project-num">04</div>
+        <div class="project-title">Project Title Here</div>
+        <div class="project-type">Architectural Render</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="img-placeholder">
+        <svg viewBox="0 0 100 100" fill="none">
+          <rect x="5" y="5" width="90" height="90" rx="2" stroke="#c8f562" stroke-width="1" opacity="0.2"/>
+          <rect x="15" y="15" width="30" height="70" fill="#c8f562" opacity="0.2"/>
+          <rect x="55" y="35" width="30" height="50" fill="#c8f562" opacity="0.15"/>
+          <rect x="55" y="15" width="14" height="16" fill="#c8f562" opacity="0.1"/>
+        </svg>
+      </div>
+      <div class="project-overlay">
+        <div class="project-tags">
+          <span class="tag">ArcGIS</span><span class="tag">AutoCAD</span>
+        </div>
+      </div>
+      <div class="project-info">
+        <div class="project-num">05</div>
+        <div class="project-title">Project Title Here</div>
+        <div class="project-type">Site Plan & GIS Analysis</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="img-placeholder">
+        <svg viewBox="0 0 100 100" fill="none">
+          <circle cx="30" cy="50" r="18" stroke="#5ff0c8" stroke-width="1.5" opacity="0.3"/>
+          <circle cx="70" cy="50" r="18" stroke="#c8f562" stroke-width="1.5" opacity="0.3"/>
+          <path d="M48 36 Q50 50 52 64" stroke="white" stroke-width="1" opacity="0.2"/>
+        </svg>
+      </div>
+      <div class="project-overlay">
+        <div class="project-tags">
+          <span class="tag">Revit</span><span class="tag">V-Ray</span>
+        </div>
+      </div>
+      <div class="project-info">
+        <div class="project-num">06</div>
+        <div class="project-title">Project Title Here</div>
+        <div class="project-type">BIM + Visualization</div>
+      </div>
+    </div>
+
+    <div class="upload-notice">
+      <p>📂 <span>Add your project images</span> — replace placeholders with real screenshots from Revit, Enscape, V-Ray renders, and AutoCAD drawings</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-label">What I Offer</div>
+  <div class="section-title">SERVICES</div>
+  <div class="services-grid fade-up">
+    <div class="service-card">
+      <div class="service-icon">🏗️</div>
+      <div class="service-title">BIM Modeling</div>
+      <p class="service-desc">Full 3D BIM models in Autodesk Revit — architectural, structural, and MEP. LOD 200–400 as per project requirement with coordination-ready output.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🎨</div>
+      <div class="service-title">3D Visualization</div>
+      <p class="service-desc">Photorealistic renders and real-time walkthroughs using V-Ray, Enscape, and SketchUp. Interior, exterior, aerial views — all delivered at high resolution.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📐</div>
+      <div class="service-title">CAD Drafting</div>
+      <p class="service-desc">Precision 2D drawing production in AutoCAD — floor plans, sections, elevations, details, and as-built drawings following international drafting standards.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔬</div>
+      <div class="service-title">Structural Analysis</div>
+      <p class="service-desc">Structural design and analysis using ETABS for frames, slabs, and foundations. Seismic and load analysis with professional documentation for review.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FIVERR CTA -->
+<div class="fiverr-section fade-up">
+  <div class="fiverr-text">
+    <h2>READY TO START<br>YOUR <span>PROJECT?</span></h2>
+    <p>Find my services on Fiverr. Fast delivery, professional quality, and clear communication at every step.</p>
+  </div>
+  <a href="https://fiverr.com" target="_blank" class="fiverr-badge">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M23.004 15.588a.995.995 0 1 0 .002-1.99.995.995 0 0 0-.002 1.99zm-.996-3.705h-1.742c.028-.737.232-1.117 1.111-1.117h.63V9.568h-.638c-1.921 0-2.573 1.011-2.573 2.896v.42H17.9v1.249h.896v4.044h1.732v-4.044h1.48v-1.25zm-6.786 1.871c0-.688.57-1.029 1.154-1.029.548 0 1.027.298 1.233.732l1.37-.803c-.494-.959-1.521-1.559-2.603-1.559-1.701 0-2.884 1.117-2.884 2.666 0 1.557 1.183 2.665 2.884 2.665 1.09 0 2.117-.6 2.603-1.558l-1.37-.797c-.206.434-.685.731-1.233.731-.584 0-1.154-.34-1.154-1.048zm-2.924-4.892c0 .545.443.988.988.988.548 0 .99-.443.99-.988a.99.99 0 0 0-.99-.989.988.988 0 0 0-.988.989zm.125 7.815h1.732v-5.296h-1.732v5.296zm-2.23-1.553c0 .34-.314.468-.7.468-.435 0-.784-.212-.968-.594l-1.378.8c.378.784 1.227 1.268 2.346 1.268 1.293 0 2.4-.624 2.4-1.942v-3.743h-1.7v3.743zm-2.914 1.553v-5.296H5.547v.436a2.47 2.47 0 0 0-1.67-.652c-1.561 0-2.773 1.176-2.773 2.858 0 1.69 1.212 2.858 2.773 2.858a2.46 2.46 0 0 0 1.67-.653v.449h1.732zm-1.732-2.654c0 .696-.504 1.14-1.12 1.14-.615 0-1.118-.444-1.118-1.14 0-.697.503-1.14 1.119-1.14.615 0 1.119.443 1.119 1.14z"/></svg>
+    View Fiverr Profile
+  </a>
+</div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">Get In Touch</div>
+  <div class="section-title">LET'S WORK<br>TOGETHER</div>
+  <div class="contact-grid fade-up">
+    <div class="contact-info">
+      <h3>Have a project<br>in mind?</h3>
+      <p>Whether you need a full BIM model, stunning renders, or CAD drawings — I'd love to help bring your project to life.</p>
+      <div class="contact-links">
+        <a href="mailto:your@email.com" class="contact-link">
+          <div>
+            <div class="contact-link-label">Email</div>
+            <div>your@email.com</div>
+          </div>
+        </a>
+        <a href="https://fiverr.com" target="_blank" class="contact-link">
+          <div>
+            <div class="contact-link-label">Fiverr</div>
+            <div>fiverr.com/yourprofile</div>
+          </div>
+        </a>
+        <a href="#" class="contact-link">
+          <div>
+            <div class="contact-link-label">LinkedIn</div>
+            <div>linkedin.com/in/pranto-kumar-shaha</div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="contact-form">
+      <div class="form-group">
+        <label class="form-label">Your Name</label>
+        <input type="text" class="form-input" placeholder="John Doe">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input type="email" class="form-input" placeholder="john@example.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Project Details</label>
+        <textarea class="form-textarea" placeholder="Tell me about your project..."></textarea>
+      </div>
+      <a href="mailto:your@email.com" class="btn-primary" style="text-align:center">Send Message</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">PRANTO KUMAR SHAHA</div>
+  <div class="footer-copy">© 2026 — BIM Designer</div>
+  <div class="footer-links">
+    <a href="https://fiverr.com" target="_blank">Fiverr</a>
+    <a href="#">LinkedIn</a>
+    <a href="mailto:your@email.com">Email</a>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    setTimeout(() => {
+      ring.style.left = e.clientX + 'px';
+      ring.style.top = e.clientY + 'px';
+    }, 80);
+  });
+
+  // Hover effect on interactive elements
+  document.querySelectorAll('a, button, .project-card, .service-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '16px';
+      cursor.style.height = '16px';
+      ring.style.width = '50px';
+      ring.style.height = '50px';
+      ring.style.opacity = '1';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '10px';
+      cursor.style.height = '10px';
+      ring.style.width = '36px';
+      ring.style.height = '36px';
+      ring.style.opacity = '0.5';
+    });
+  });
+
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Filter tabs (visual only)
+  document.querySelectorAll('.filter-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
